@@ -44,19 +44,20 @@ minimal `iaf_psc_alpha` example.
 
 ## Environment
 
-- Python: conda env `BXP2` (BMTK 1.0.6 + NEST 3.0 already installed — do **not** pip/conda install).
-- This host has a broken system NEST install on `PYTHONPATH` that shadows the
-  conda env's NEST. You MUST run python in a way that avoids it. Use exactly:
+- Use the Python interpreter designated by the project README, `ENVIRONMENT.md`,
+  or the trial-specific section appended below this guide. Run **all** Python
+  commands with that exact interpreter.
+- The required baseline is that these imports succeed in the chosen interpreter:
 
   ```bash
-  unset PYTHONPATH
-  LD_LIBRARY_PATH=/home/dhaufler/anaconda3/envs/BXP2/lib \
-    /home/dhaufler/anaconda3/envs/BXP2/bin/python <script.py>
+  <python-command> -c "import bmtk, nest; from bmtk.simulator import pointnet; print('ok')"
   ```
 
-  Do NOT use `conda run -n BXP2 ...` (it inherits the broken `PYTHONPATH`),
-  and do NOT use the env `BMTK_2023` or `bmtk` (those envs hit the broken
-  system NEST on this host).
+- If the project does not name an interpreter explicitly, ask the user which
+  environment to use or state the interpreter you used when validating.
+- Do **not** invent host-specific absolute paths in generated files.
+- Do **not** create a new environment or install packages unless the user
+  explicitly asked for environment setup as part of the task.
 - Use relative paths in all configs. No absolute paths.
 - Do **not** download Allen Cell Types Database parameter files — use NEST built-in
   models (e.g. `nest:iaf_psc_alpha`, `nest:glif_psc`) with simple JSON parameter files

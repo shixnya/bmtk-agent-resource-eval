@@ -26,13 +26,16 @@ Run through these before claiming the project is ready:
 
 A two-stage smoke test catches most failures fast:
 
+Use the interpreter command specified in `AGENTS.md`, `README.md`, or
+`ENVIRONMENT.md` for the current project.
+
 ```bash
 # Stage 1 — build the network
-conda run -n BMTK_2023 python build_network.py
+<python-command> build_network.py
 ls network/                                  # confirm nodes/edges files exist
 
 # Stage 2 — initialize the simulator without running long
-conda run -n BMTK_2023 python -c "
+<python-command> -c "
 from bmtk.simulator import pointnet
 c = pointnet.Config.from_json('config.json')
 c.build_env()
@@ -64,13 +67,13 @@ unknown NEST parameter, bad attribute).
 
 ```bash
 # JSON validity
-conda run -n BMTK_2023 python -m json.tool config.json > /dev/null
+<python-command> -m json.tool config.json > /dev/null
 
 # Python syntax
-conda run -n BMTK_2023 python -m py_compile build_network.py run_pointnet.py
+<python-command> -m py_compile build_network.py run_pointnet.py
 
 # Quick consistency probe: which dynamics_params are referenced and do they exist?
-conda run -n BMTK_2023 python - <<'PY'
+<python-command> - <<'PY'
 import json, pathlib, csv
 root = pathlib.Path('.')
 referenced = set()
