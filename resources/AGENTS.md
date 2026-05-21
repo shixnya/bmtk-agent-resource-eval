@@ -144,6 +144,30 @@ patterns.
 - **Summarize at the end.** Report populations created, connection classes,
   simulation duration, output paths, and the exact commands needed to reproduce.
 
+## Exact project contract
+
+When the prompt gives a concrete file, config, or validation contract, satisfy
+that exact contract rather than inventing a semantically similar variant.
+
+- `config.json` must contain top-level `target_simulator: "NEST"`.
+- `config.json` must contain top-level `manifest`, `components`, `networks`,
+  `run`, and `output` sections.
+- The files referenced by `config.json` must be the files actually produced by
+  `build_network.py`. Do not reference filenames you did not write.
+- Do not stop after `net.build()`. Save nodes and edges to disk.
+- Do not introduce alternate config layouts, extra config files, or root-level
+  CSV placeholders unless the prompt explicitly asks for them.
+- Prefer the canonical PointNet layout in this guide: generated SONATA files in
+  `network/`, component JSONs in `components/`, runtime outputs in `output/`.
+- In node types, use PointNet-compatible values consistently: `model_type`
+  should be `point_process` or `point_neuron`, `model_template` should start
+  with `nest:`, and the E/I marker should use compact values `e` and `i`.
+- In edge types, use `model_template='static_synapse'` and include enough type
+  metadata for the evaluator to identify E->E, E->I, I->E, and I->I edge sets.
+- Before declaring success, verify that every file referenced in `config.json`
+  exists on disk and that the designated Python interpreter can load the
+  project through `bmtk.simulator.pointnet`.
+
 ## Reference
 
 - BMTK docs: https://alleninstitute.github.io/bmtk/
